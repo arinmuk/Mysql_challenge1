@@ -80,4 +80,14 @@ select s.store_id,sum(p.amount) as "total amount" from payment p inner join rent
   group by c.name
  order by sum(p.amount) desc limit 5;#---7h
  
-
+create view top_5_genres as 
+select c.name,sum(p.amount) as "total amount" from payment p inner join rental r on p.rental_id =r.rental_id
+ inner join inventory i on r.inventory_id = i.inventory_id
+ inner join film f on f.film_id = i.film_id 
+ inner join film_category fc on f.film_id=fc.film_id
+ inner join category c on fc.category_id=c.category_id
+  group by c.name
+ order by sum(p.amount) desc limit 5;#---8a
+ select * from top_5_genres;
+ 
+ drop view top_5_genres;#---8c
